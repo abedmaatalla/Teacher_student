@@ -1,0 +1,226 @@
+
+     <!-- Modal student search -->
+    <div id="studentModalSearch" class="modal fade" role="dialog">
+
+        <form action="{{ path_for("searchPost") }}" method="GET">
+            <input type="hidden" name="userType" value="student">
+            <div class="modal-dialog">
+            
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">{{ translate('translation.root.searchForStudents') }}</h4>
+              </div>
+              <div class="modal-body">
+                      
+                    <div class="form-group">
+                        <label for="name">{{ translate('translation.root.name') }}:</label>
+                        <input type="text" name="name" class="form-control"  />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="age">{{ translate('translation.root.age') }}:</label>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input type="number" min="0" name="ageMin" class="form-control" placeholder="Min" />
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <input type="number" min="0" name="ageMax" class="form-control" placeholder="Max" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="country">{{ translate('translation.root.country') }}:</label>
+                        <select name="country" class="form-control" >
+                            <option value="dz">{{ translate('translation.root.algeria') }}</option>
+                            <option value="tr">{{ translate('translation.root.turkey') }}</option>
+                            <option value="fr">{{ translate('translation.root.france') }}</option>
+                            <option value="gr">{{ translate('translation.root.greece') }}</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="category">{{ translate('translation.root.category') }}:</label>
+                        <select name="category" class="form-control" required>
+                            {% for categories in categoryList %}
+                                <optgroup label=" >>> {{categories.category}} <<< ">
+
+                                    {% for category in categories.subCategory %}
+                                        <option {% if category.id == auth.user.id_category %} selected {% endif %} value="{{category.id}}">{{ category.category }}</option>
+                                    {% endfor %}
+                                </optgroup>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="experience">{{ translate('translation.root.level') }}:</label>
+                        <select name="experience" class="form-control" >
+                            <option value="0">{{ translate('translation.root.level1') }}</option>
+                            <option value="1">{{ translate('translation.root.level2') }}</option>
+                            <option value="2">{{ translate('translation.root.level3') }}</option>
+                            <option value="3">{{ translate('translation.root.level4') }}</option>
+                            <option value="4">{{ translate('translation.root.level5') }}</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="price">{{ translate('translation.root.price') }}:</label>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input type="number" min="0" name="priceMin" class="form-control" placeholder="Min" />
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <input type="number" min="0" name="priceMax" class="form-control" placeholder="Max" />
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{ translate('translation.root.close') }}</button>
+                    <button  class="btn btn-primary">{{ translate('translation.root.search') }}</button>
+                  </div>
+                </div>
+
+          </div>
+
+        </form>
+    </div>
+    <!-- /Model student search  -->
+
+     <!-- Modal teacher search -->
+    <div id="teacherModalSearch" class="modal fade" role="dialog">
+        <form action="{{ path_for("searchPost") }}" method="GET">
+            <input type="hidden" name="userType" value="teacher">
+            <div class="modal-dialog">
+            
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">{{ translate('translation.root.searchForTeachers') }}</h4>
+              </div>
+              <div class="modal-body">
+                      
+                    <div class="form-group">
+                        <label for="name">{{ translate('translation.root.name') }}:</label>
+                        <input type="text" name="name" class="form-control"  />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="sexe">{{ translate('translation.root.sexe') }}:</label>
+                        <select name="sexe" class="form-control" >
+                            <option value="m">{{ translate('translation.root.male') }}</option>
+                            <option value="f">{{ translate('translation.root.female') }}</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="age">{{ translate('translation.root.age') }}:</label>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input type="number" min="0" name="ageMin" class="form-control" placeholder="Min" />
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <input type="number" min="0" name="ageMax" class="form-control" placeholder="Max" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="country">{{ translate('translation.root.country') }}:</label>
+                        <select name="country" class="form-control" >
+                            <option value="dz">{{ translate('translation.root.algeria') }}</option>
+                            <option value="tr">{{ translate('translation.root.turkey') }}</option>
+                            <option value="fr">{{ translate('translation.root.france') }}</option>
+                            <option value="gr">{{ translate('translation.root.greece') }}</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="category">{{ translate('translation.root.category') }}:</label>
+                        <select name="category" class="form-control" required>
+                            {% for categories in categoryList %}
+                                <optgroup label=" >>> {{categories.category}} <<< ">
+                                    {% for category in categories.subCategory %}
+                                        <option {% if category.id == auth.user.id_category %} selected {% endif %} value="{{category.id}}">{{ category.category }}</option>
+                                    {% endfor %}
+                                </optgroup>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="experience">{{ translate('translation.root.experience') }}:</label>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input type="number" min="0" name="experienceMin" class="form-control" placeholder="Min" />
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <input type="number" min="0" name="experienceMax" class="form-control" placeholder="Max" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="price">{{ translate('translation.root.price') }}:</label>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input type="number" min="0" name="priceMin" class="form-control" placeholder="Min" />
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <input type="number" min="0" name="priceMax" class="form-control" placeholder="Max"  />
+                            </div>
+                        </div>
+                        
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{ translate('translation.root.close') }}</button>
+                    <button  class="btn btn-primary">{{ translate('translation.root.search') }}</button>
+                  </div>
+                </div>
+
+          </div>
+
+        </form>
+    </div>
+    <!-- /Model teacher search  -->
+
+     <!-- Modal login-->
+
+    {% if not auth.check %} 
+        <div id="loginModal" class="modal fade" role="dialog">
+            <form action="{{ path_for("login") }}" method="POST">
+                <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">{{ translate('translation.root.login') }}</h4>
+                  </div>
+                  <div class="modal-body">
+                        <div class="form-group">
+                            <label for="email">{{ translate('translation.root.email') }}:</label>
+                            <input type="email" name="email" class="form-control" placeholder="email@example.com" required  />
+                        </div>
+                        <div class="form-group">
+                            <label for="password">{{ translate('translation.root.password') }}:</label> <span class="pull-right" for="forget"><a href="{{path_for('forgetPassword')}}" >{{ translate('translation.root.forget') }}</a></span>
+                            <input type="password" name="password" class="form-control" placeholder="*****"  required/>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button  class="btn btn-primary">{{ translate('translation.root.login') }}</button>
+                      </div>
+                    </div>
+              </div>
+            </form>
+        </div>
+    {% endif %}
+    <!-- /Model login  -->
+    

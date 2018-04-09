@@ -1,0 +1,196 @@
+
+{% extends 'templates/adminTemplate.twig' %}
+{% block title %} {{title}} List{% endblock %}
+{% block container %}
+	<div class="col-lg-12">
+	    <div class="panel panel-default">
+	        <div class="panel-heading">
+	            {{ translate('translation.root.list') }}
+	        </div>
+	        <!-- /.panel-heading -->
+	        <div class="panel-body">
+	            <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+	                <thead>
+	                    <tr>
+	                    	<th>{{ translate('translation.root.image') }}</th>
+	                        <th>{{ translate('translation.root.name') }}</th>
+	                        <th>{{ translate('translation.root.sexe') }}</th>
+	                        <th>{{ translate('translation.root.country') }}</th>
+	                        <th>{{ translate('translation.root.age') }}</th>
+	                        <th>{{ translate('translation.root.address') }}</th>
+	                        <th>{{ translate('translation.root.language') }}</th>
+	                        <th>{{ translate('translation.root.experience') }}</th>
+	                        <th>{{ translate('translation.root.price') }}</th>
+
+	                        {% if title == "Teachers" %}
+	                        	<th>{{ translate('translation.root.whyDoYouWantToTeach') }}</th>
+	                        {% else %}
+	                        	<th>{{ translate('translation.root.whyDoYouWantToLearn') }}</th>
+	                        {% endif %}
+
+	                        {% if title == "Teachers" %}
+	                        	<th>{{ translate('translation.root.resume') }}</th>
+	                        {% endif %}
+	                        <th>{{ translate('translation.root.option') }}</th>
+	                    </tr>
+	                </thead>
+	                <tbody>
+                    	{% for user in users %}
+		                    <tr class="odd gradeX">
+		                        <td><img src="{{user.image}}" style="width:90px"></td>
+		                        <td>{{user.lastName}} {{user.lastName}}</td>
+		                        <td>{{user.sexe}}</td>
+		                        <td>{{user.country}}</td>
+		                        <td>{{user.age}}</td>
+		                        <td>{{user.address}}</td>
+		                        <td>{{user.language}}</td>
+		                        <td>{{user.experience}}</td>
+		                        <td>{{user.price}}</td>
+		                        <td>{{user.bio}}</td>
+		                        {% if user.type == "teacher" %}
+		                        	<td>
+			                        	{% if user.resume() == "#" %}	
+			                        		{{user.resume()}}
+		                        		{% else %}
+			                        		<a href="{{user.resume()}}" class="btn btn-info"><i class="fa fa-info"> </i> </a> 
+		                        		{% endif %}
+	                        		</td>
+		                        {% endif %}
+		                        <td>
+		                        	<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#modal{{user.id}}">{{ translate('translation.root.edit') }}</button>
+		                        </td>
+		                    </tr>
+                        {% endfor %}
+	                    </tbody>
+	            </table>
+	        </div>
+	        <!-- /.panel-body -->
+	    </div>
+	    <!-- /.panel -->
+	</div>
+	<!-- /.col-lg-12 -->
+{% endblock %}
+
+{% block modal %}
+
+     <!-- Modal -->
+     {% for user in users %}
+    <div id="modal{{user.id}}" class="modal fade" role="dialog">
+
+        <form action="{{ path_for("editUser") }}" method="POST">
+        	<input type="hidden" name="id" value="{{user.id}}">
+            <div class="modal-dialog">
+
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">{{ translate('translation.root.user') }}</h4>
+              </div>
+              <div class="modal-body">
+
+	                <div class="form-group">
+	                    <label for="status">{{ translate('translation.root.status') }}:</label>
+	                    <select name="active" class="form-control" >
+	                        <option {% if user.active == 0 %} selected {% endif %} value="0">{{ translate('translation.root.notActive') }}</option>
+	                        <option {% if user.active == 1 %} selected {% endif %} value="1">{{ translate('translation.root.active') }}</option>
+	                    </select>
+	                </div>
+                      
+                    <div class="form-group">
+	                    <label for="firstName">{{ translate('translation.root.firstName') }}:</label>
+	                    <input type="text" name="firstName" class="form-control"  value="{{ user.firstName}}" />
+	                </div>
+	                <div class="form-group">
+	                    <label for="lastName">{{ translate('translation.root.lastName') }}:</label>
+	                    <input type="text" name="lastName" class="form-control"  value="{{ user.lastName}}"/>
+	                </div>
+
+	                <div class="form-group">
+	                    <label for="sexe">{{ translate('translation.root.sexe') }}:</label>
+	                    <select name="sexe" class="form-control">
+	                        <option {% if user.sexe == 'm' %} selected {% endif %} value="m">{{ translate('translation.root.male') }}</option>
+	                        <option {% if user.sexe == 'f' %} selected {% endif %} value="f">{{ translate('translation.root.female') }}</option>
+	                    </select>
+	                </div>
+
+	                <div class="form-group">
+	                    <label for="age">{{ translate('translation.root.age') }}:</label>
+	                    <input type="number" min="0" name="age" class="form-control"  value="{{ user.age }}"/>
+	                </div>
+
+
+	                <div class="form-group">
+	                    <label for="country">{{ translate('translation.root.country') }}:</label>
+	                    <select name="country" class="form-control" >
+	                        <option {% if user.country == 'dz' %} selected {% endif %} value="dz">{{ translate('translation.root.algeria') }}</option>
+	                        <option {% if user.country == 'tr' %} selected {% endif %} value="tr">{{ translate('translation.root.turkey') }}</option>
+	                        <option {% if user.country == 'fr' %} selected {% endif %} value="fr">{{ translate('translation.root.france') }}</option>
+	                        <option {% if user.country == 'gr' %} selected {% endif %} value="gr">{{ translate('translation.root.greece') }}</option>
+	                    </select>
+	                </div>
+
+	                <div class="form-group">
+	                    <label for="address">{{ translate('translation.root.address') }}:</label>
+	                    <input type="text" name="address" class="form-control"  value="{{ user.address}}"/>
+	                </div>
+
+	                <div class="form-group">
+	                    <label for="language">{{ translate('translation.root.language') }}:</label>
+	                    <select name="language" class="form-control" >
+	                        <option {% if user.language == 'fr' %} selected {% endif %} value="fr">{{ translate('translation.root.french') }}</option>
+	                        <option {% if user.language == 'en' %} selected {% endif %} value="en">{{ translate('translation.root.english') }}</option>
+	                        <option {% if user.language == 'tr' %} selected {% endif %} value="tr">{{ translate('translation.root.turkish') }}</option>
+	                        <option {% if user.language == 'es' %} selected {% endif %} value="es">{{ translate('translation.root.spanish') }}</option>
+	                        <option {% if user.language == 'ar' %} selected {% endif %} value="ar">{{ translate('translation.root.arabic') }}</option>
+	                    </select>
+	                </div>
+
+	                <div class="form-group">
+	                	{% if user.type == 'student' %}
+		                    <label for="experience">{{ translate('translation.root.level') }}:</label>
+		                    <select name="experience" class="form-control" >
+		                        <option {% if user.experience == '0' %} selected {% endif %}  value="0">{{ translate('translation.root.level1') }}</option>
+		                        <option {% if user.experience == '1' %} selected {% endif %} value="1">{{ translate('translation.root.level2') }}</option>
+		                        <option {% if user.experience == '2' %} selected {% endif %} value="2">{{ translate('translation.root.level3') }}</option>
+		                        <option {% if user.experience == '3' %} selected {% endif %} value="3">{{ translate('translation.root.level4') }}</option>
+		                        <option {% if user.experience == '4' %} selected {% endif %} value="4">{{ translate('translation.root.level5') }}</option>
+		                    </select>
+	                    {% else %}
+	                    	<label for="experience">{{ translate('translation.root.experience') }}:</label>
+                    		<input name="experience" class="form-control" value="{{auth.user.experience}}"/>
+	                	{% endif %}
+	                </div>
+
+	                <div class="form-group">
+	                    <label for="price">{{ translate('translation.root.price') }}:</label>
+	                    <input type="number" min="0" name="price" class="form-control"  value="{{ user.price }}"/>
+	                </div>
+	                <div class="form-group">
+	                    <label for="email">{{ translate('translation.root.email') }}:</label>
+	                    <label class="form-control" >{{ user.email}}</label>
+	                </div>
+	                <div class="form-group">
+
+                        {% if title == "Teachers" %}
+                        	<label for="bio">{{ translate('translation.root.whyDoYouWantToTeach') }}</label>
+                        {% else %}
+                        	<label for="bio">{{ translate('translation.root.whyDoYouWantToLearn') }}</label>
+                        {% endif %}
+	                    
+	                    <textarea name="bio" class="form-control" >{{ user.bio}}</textarea>
+	                </div>
+	                      
+	              </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{ translate('translation.root.close') }}</button>
+                    <button  class="btn btn-primary">{{ translate('translation.root.submit') }}</button>
+                  </div>
+                </div>
+
+          </div>
+
+        </form>
+    </div>
+    {% endfor %}
+    <!-- /Model  -->
+{% endblock %}

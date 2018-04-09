@@ -1,0 +1,46 @@
+
+{% extends 'templates/adminTemplate.twig' %}
+{% block title %} Update profile {% endblock %}
+
+{% block container %}
+	<form action="{{ path_for("adminProfileEdit") }}" method="POST">     
+        <div class="modal-content black ">
+          <div class="modal-header">
+            <h4 class="modal-title">{{ translate('translation.root.profile') }}</h4>
+            {% if messageSuccess.messageSuccess %}
+                <div class="col-md-12 alert alert-success">
+                    {{messageSuccess.messageSuccess}}
+                </div>
+            {% endif %}
+            {% if messageDanger.messageDanger %}
+                <div class="col-md-12 alert alert-danger">
+                    {{messageDanger.messageDanger}}
+                </div>
+            {% endif %}
+    
+          </div>
+          <div class="modal-body">
+                <div class="form-group">
+                    <label for="firstName">{{ translate('translation.root.firstName') }}:</label>
+                    <input type="text" name="firstName" class="form-control" required value="{{ auth.user.firstName}}" />
+                </div>
+                <div class="form-group">
+                    <label for="lastName">{{ translate('translation.root.lastName') }}:</label>
+                    <input type="text" name="lastName" class="form-control" required value="{{ auth.user.lastName}}"/>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">{{ translate('translation.root.email') }}:</label>
+                    <label class="form-control" >{{ auth.user.email}}</label>
+                </div>
+                <div class="form-group">
+                    <label for="password">{{ translate('translation.root.password') }}:</label>
+                    <input type="password" name="password" class="form-control" required placeholder="*****"/>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button  class="btn btn-primary">{{ translate('translation.root.update') }}</button>
+              </div>
+            </div>
+    </form>
+{% endblock %}

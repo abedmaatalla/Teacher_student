@@ -1,0 +1,94 @@
+{% extends 'templates/searchTemplate.twig' %}
+
+{% block searchResult %}
+
+	{% if results is not empty %}
+
+		    <header class="hero-spacer">
+		        {% for key, user in results %}
+		        <div class="col-md-2 hero-feature">
+		            <div class="thumbnail">
+		                <a href="#portfolioModal{{user.id}}" class="portfolio-link" data-toggle="modal">
+
+		                    <img 
+			                {% if user.image %}
+			                    src="{{user.image}}" 
+			                {% else %}
+			                    src="http://placehold.it/800x500"
+			                {% endif %}
+			                style="height: 90px;" alt="">
+
+		                    <h6>{{ user.lastName }} {{ user.firstName }} </h6>
+		                </a>
+		            </div>
+		        </div>
+		        {% endfor %}
+		    </header>
+
+	{% endif %}
+
+{% endblock %}
+
+{% block modal %} 
+
+	{% if results is not empty %}
+		{% for user in results %}
+    <div class="portfolio-modal modal fade" id="portfolioModal{{ user.id }}" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body">
+                            <h2> {{user.lastName }} {{ user.firstName }} </h2>
+                            <hr class="star-primary">
+                            <img src="{{ user.image }}" class="img-responsive img-centered" alt="">
+                            <p>{{ user.bio }}</p>
+                            <ul class="list-inline item-details">
+                                {% if user.contact().phone %}
+                                <li>Phone:
+                                    <strong><a href="#">{{ user.contact().phone }}</a>
+                                    </strong>
+                                </li>
+                                {% endif %}
+                                {% if user.contact().skype %}
+                                <li>Skype:
+                                    <strong><a href="#">{{ user.contact().skype }}</a>
+                                    </strong>
+                                </li>
+                                {% endif %}
+                                {% if user.contact().facebook %}
+                                <li>Facebook:
+                                    <strong><a href="#">{{ user.contact().facebook }} </a>
+                                    </strong>
+                                </li>
+                                {% endif %}
+                                {% if user.contact().twitter %}
+                                <li>Twitter:
+                                    <strong><a href="#">{{ user.contact().twitter }}</a>
+                                    </strong>
+                                </li>
+                                {% endif %}
+                                {% if user.contact().linkedin %}
+                                <li>LinkedIn:
+                                    <strong><a href="#">{{ user.contact().linkedin }}</a>
+                                    </strong>
+                                </li>
+                                {% endif %}
+                            </ul>
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i>{{ translate('translation.root.close') }}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+		{% endfor %}
+	{% endif %}
+{% endblock %}

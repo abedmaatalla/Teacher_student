@@ -1,0 +1,101 @@
+
+{% extends 'templates/adminTemplate.twig' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block container %}
+
+	<div class="col-lg-3 col-md-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-comments fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">{{ activeStudents }}</div>
+                        <div>{{ translate('translation.root.activeStudents') }}</div>
+                    </div>
+                </div>
+            </div>
+            <a href="{{ path_for("activeStudent") }}">
+                <div class="panel-footer">
+                    <span class="pull-left">{{ translate('translation.root.viewDetails') }}</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+        <div class="panel panel-green">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-tasks fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">{{ noActiveStudents }}</div>
+                        <div>{{ translate('translation.root.notActive') }} {{ translate('translation.root.students') }}</div>
+                    </div>
+                </div>
+            </div>
+            <a href="{{ path_for("noActiveStudent") }}">
+                <div class="panel-footer">
+                    <span class="pull-left">{{ translate('translation.root.viewDetails') }}</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+        <div class="panel panel-yellow">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-shopping-cart fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">{{ activeTeachers }}</div>
+                        <div>{{ translate('translation.root.activeTeachers') }}</div>
+                    </div>
+                </div>
+            </div>
+            <a href=" {{ path_for("activeTeacher") }} ">
+                <div class="panel-footer">
+                    <span class="pull-left">{{ translate('translation.root.viewDetails') }}</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+        <div class="panel panel-red">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-support fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">{{ noActiveTeachers }}</div>
+                        <div>{{ translate('translation.root.notActive') }} {{ translate('translation.root.teachers') }}</div>
+                    </div>
+                </div>
+            </div>
+            <a href=" {{ path_for("noActiveTeacher") }} ">
+                <div class="panel-footer">
+                    <span class="pull-left">{{ translate('translation.root.viewDetails') }}</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block modal %}
+
+{% endblock %}

@@ -1,0 +1,182 @@
+{% extends 'templates/profileTemplate.twig' %}
+
+
+{% block container %}
+    <div class="col-md-3">
+        <div class="row">
+            <div class="hero-feature col-md-12">
+                <div class="thumbnail">
+                    <h5>{{ translate('translation.root.image') }}</h5>
+                    <img style="height: 120px;" src="{{auth.user.image}}" alt="">
+
+                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#uploadImage">{{ translate('translation.root.uploadNew') }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="hero-feature">
+             <form action="{{ path_for("updateContact") }}" method="POST">     
+                <div class="modal-content black ">
+                  <div class="modal-header">
+                    <h4 class="modal-title">{{ translate('translation.root.contactInfo') }}</h4>
+                  </div>
+                  <div class="modal-body">
+                        <div class="form-group">
+                            <label for="phone">{{ translate('translation.root.phone') }}:</label>
+                            <input type="phone" name="phone" class="form-control" value="{{ contact.phone}}" />
+                        </div>
+                        <div class="form-group">
+                            <label for="skype">{{ translate('translation.root.skype') }}:</label>
+                            <input type="text" name="skype" class="form-control" value="{{ contact.skype}}" />
+                        </div>
+                        <div class="form-group">
+                            <label for="facebook">{{ translate('translation.root.facebook') }}:</label>
+                            <input type="url" name="facebook" class="form-control" value="{{ contact.facebook}}" />
+                        </div>
+                        <div class="form-group">
+                            <label for="twitter">{{ translate('translation.root.twitter') }}:</label>
+                            <input type="url" name="twitter" class="form-control" value="{{ contact.twitter}}" />
+                        </div>
+                        <div class="form-group">
+                            <label for="linkedin">{{ translate('translation.root.linkedIn') }}:</label>
+                            <input type="url" name="linkedin" class="form-control" value="{{ contact.linkedin}}" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button  class="btn btn-primary">{{ translate('translation.root.update') }}</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-8 ">
+    <form action="{{ path_for("updateStudent") }}" method="POST">    
+        <div class="modal-content black ">
+          <div class="modal-header">
+            <h4 class="modal-title">Profile</h4>
+            {% if messageSuccess.messageSuccess %}
+                <div class="col-md-12 alert alert-success">
+                    {{messageSuccess.messageSuccess}}
+                </div>
+            {% endif %}
+            {% if messageDanger.messageDanger %}
+                <div class="col-md-12 alert alert-danger">
+                    {{messageDanger.messageDanger}}
+                </div>
+            {% endif %}
+          </div>
+          <div class="modal-body">
+                  
+                <div class="form-group">
+                    <label for="firstName">{{ translate('translation.root.firstName') }}:</label>
+                    <input type="text" name="firstName" class="form-control" required value=" {{ auth.user.firstName}} " />
+                </div>
+                <div class="form-group">
+                    <label for="lastName">{{ translate('translation.root.lastName') }}:</label>
+                    <input type="text" name="lastName" class="form-control" required value=" {{ auth.user.lastName}} "/>
+                </div>
+
+                <div class="form-group">
+                    <label for="sexe">{{ translate('translation.root.sexe') }}:</label>
+                    <select name="sexe" class="form-control">
+                        <option {% if auth.user.sexe == 'm' %} selected {% endif %} value="m">{{ translate('translation.root.male') }}</option>
+                        <option {% if auth.user.sexe == 'f' %} selected {% endif %} value="f">{{ translate('translation.root.female') }}</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="age">{{ translate('translation.root.age') }}:</label>
+                    <input type="number" min="0" name="age" class="form-control" required value="{{ auth.user.age }}"/>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="country">{{ translate('translation.root.country') }}:</label>
+                    <select name="country" class="form-control" required>
+                        <option {% if auth.user.country == 'dz' %} selected {% endif %} value="dz">{{ translate('translation.root.algeria') }}</option>
+                        <option {% if auth.user.country == 'tr' %} selected {% endif %} value="tr">{{ translate('translation.root.turkey') }}</option>
+                        <option {% if auth.user.country == 'fr' %} selected {% endif %} value="fr">{{ translate('translation.root.france') }}</option>
+                        <option {% if auth.user.country == 'gr' %} selected {% endif %} value="gr">{{ translate('translation.root.greece') }}</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="address">{{ translate('translation.root.address') }}:</label>
+                    <input type="text" name="address" class="form-control" required value=" {{ auth.user.address}} "/>
+                </div>
+
+                <div class="form-group">
+                    <label for="category">{{ translate('translation.root.category') }}:</label>
+                    <select name="category" class="form-control" required>
+                        {% for categories in categoryList %}
+                            <optgroup label=" >>> {{categories.category}} <<< ">
+
+                                {% for category in categories.subCategory %}
+                                    <option {% if category.id == auth.user.id_category %} selected {% endif %} value="{{category.id}}">{{ category.category }}</option>
+                                {% endfor %}
+                            </optgroup>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="experience">{{ translate('translation.root.level') }}:</label>
+                    <select name="experience" class="form-control" required>
+                        <option {% if auth.user.experience == '0' %} selected {% endif %}  value="0">{{ translate('translation.root.level1') }}</option>
+                        <option {% if auth.user.experience == '1' %} selected {% endif %} value="1">{{ translate('translation.root.level2') }}</option>
+                        <option {% if auth.user.experience == '2' %} selected {% endif %} value="2">{{ translate('translation.root.level3') }}</option>
+                        <option {% if auth.user.experience == '3' %} selected {% endif %} value="3">{{ translate('translation.root.level4') }}</option>
+                        <option {% if auth.user.experience == '4' %} selected {% endif %} value="4">{{ translate('translation.root.level5') }}</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="price">{{ translate('translation.root.price') }}:</label>
+                    <input type="number" min="0" name="price" class="form-control" required value="{{ auth.user.price }}"/>
+                </div>
+                <div class="form-group">
+                    <label for="email">{{ translate('translation.root.email') }}:</label>
+                    <input type="email" name="email" class="form-control" required placeholder="email@example.com" value=" {{ auth.user.email}} "/>
+                </div>
+                <div class="form-group">
+                    <label for="password">{{ translate('translation.root.password') }}:</label>
+                    <input type="password" name="password" class="form-control" required placeholder="*****"/>
+                </div>
+                <div class="form-group">
+                    <label for="bio">{{ translate('translation.root.whyDoYouWantToLearn') }}</label>
+                    <textarea name="bio" class="form-control" required>{{ auth.user.bio}}</textarea>
+                </div>
+                      
+              </div>
+              <div class="modal-footer">
+                <button  class="btn btn-primary">{{ translate('translation.root.update') }}</button>
+              </div>
+            </div>
+    </form>
+</div>
+{% endblock %}
+
+
+{% block modal %}
+
+    <div id="uploadImage" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form action="{{ path_for("upload") }}?type=profileImage" class="dropzone">
+                        <div class="fallback">
+                            <input name="file" type="file" />
+                        </div>
+                    </form>
+                </div>
+                <form action="{{ path_for("profile") }}" method="GET">
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">{{ translate('translation.root.close') }}</button>
+                        <button  class="btn btn-primary">{{ translate('translation.root.done') }}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
